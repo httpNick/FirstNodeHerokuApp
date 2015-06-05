@@ -1,17 +1,40 @@
-var express = require('express');
-var app = express();
-
 var port = process.env.PORT || 8080;
+var express = require('express');
+var http = require('http');
+var app = express();
+var server = http.createServer(app).listen(port);
+var io = require('socket.io')(server);
+var requestify = require('requestify');
+
 
 app.set('view engine', 'ejs');
 
+app.all("/*", function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
+  return next();
+});
+
+
 app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res) {
-
-    res.render('index');
+app.get('/', function(req, res, next) {
+  res.render('index');
 });
 
-app.listen(port, function() {
+io.on('connection', function (socket) {
+    console.log('SOCKET CONNECTED!');
+
+    socket.on('itemPrice', function(url) {
+            requestify.get(url)
+                .then(function(response) {
+                    console.log(response.getBody());
+            });
+    });
+});
+
+/*app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
-});
+});*/
+
