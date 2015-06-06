@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="httpCSGOStash">
 <head>
     <meta charset="UTF-8">
     <title>Node Sample App</title>
-
     <link href="//maxcdn.bootstrapcdn.com/bootswatch/3.2.0/superhero/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+    <script src="/javascripts/app.js"></script>
 </head>
-<body>
-    <h1> HELLO </h1>
-
+<body ng-controller="MainCtrl">
+    <div ng-repeat="data in awpSkins">
+    <button id="AWPButton" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#{{data.weapon}}">
+      <span class="glyphicon glyphicon-collapse-down"></span> 
+    </button>
+    <span class="label label-primary">{{data.weapon}}</span>
+    <div id="{{data.weapon}}" class="collapse">
+        <div ng-repeat="skins in data.names">
+            <span> {{skins.name}} </span>
+            <img ng-src="/images/{{data.weapon}}-{{skins.name}}.png" style="width:50px;height:50px" />
+        </div>
+    </div>
 </div>
-<script>
-    var socket = io.connect('http://localhost:8080');
-    socket.emit('itemPrice', 'http://steamcommunity.com/market/priceoverview/?callback=JSON_CALLBACK&currency=3&appid=730&market_hash_name=StatTrak%E2%84%A2%20P250%20%7C%20Steel%20Disruption%20%28Factory%20New%29');
-</script>
 </body>
 </html>

@@ -18,6 +18,7 @@ app.all("/*", function(req, res, next) {
 
 
 app.use(express.static(__dirname + '/public'));
+app.use('/bower_components',  express.static(__dirname + '/bower_components'));
 
 app.get('/', function(req, res, next) {
   res.render('index');
@@ -30,9 +31,11 @@ io.on('connection', function (socket) {
             requestify.get(url)
                 .then(function(response) {
                     console.log(response.getBody());
+                    socket.emit('returnPrice', response.getBody());
             });
     });
 });
+
 
 /*app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);

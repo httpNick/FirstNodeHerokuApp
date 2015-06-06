@@ -1,2 +1,23 @@
 body    { padding-top:50px; }
-.container .jumbotron   { border-radius:40px; }
+.container .jumbotron   { border-radius:100px; }
+
+.gridStyle {
+    border: 1px solid rgb(300,300,300);
+    width: 400px; 
+    height: 300px;
+}
+.box-header {
+    border-bottom: 1px solid #aac7ef;
+    padding-bottom: 5px;
+    display: table;
+    width: 100%;
+}
+.left-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+.right-cell {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+}
