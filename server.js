@@ -3,9 +3,8 @@ var express = require('express');
 var http = require('http');
 var app = express();
 var server = http.createServer(app).listen(port);
-var io = require('socket.io')(server);
-var requestify = require('requestify');
 
+var routes = require('./routes/index');
 
 app.set('view engine', 'ejs');
 
@@ -19,23 +18,12 @@ app.all("/*", function(req, res, next) {
 
 app.use(express.static(__dirname + '/public'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components'));
-
+app.use('/', routes);
 app.get('/', function(req, res, next) {
   res.render('index');
 });
 
-io.on('connection', function (socket) {
-    console.log('SOCKET CONNECTED!');
-
-    socket.on('itemPrice', function(url) {
-            requestify.get(url)
-                .then(function(response) {
-                    console.log(response.getBody());
-                    socket.emit('returnPrice', response.getBody());
-            });
-    });
-});
-
+module.exports = app;
 
 /*app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);

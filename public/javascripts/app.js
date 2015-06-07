@@ -1,23 +1,70 @@
-var app = angular.module('httpCSGOStash', []);
+
+var app = angular.module('httpCSGOStash', ['ui.router']);
 
 
-app.controller('MainCtrl', function($scope) {
-    $scope.awpSkins = [{weapon: "AWP", 
-    					names:
-    						[{name: "Asiimov"},
-    						{name: "Redline"},
-    						{name: "BOOM"}]},
-    					{weapon: "AK-47", 
-    					names:
-    						[{name: "Jaguar"},
-    						{name: "Redline"},
-    						{name: "Vulcan"}]},
-    					{weapon: "M4A1-S", 
-    					names:
-    						[{name: "Guardian"},
-    						{name: "Nitro"},
-    						{name: "Atomic Alloy"}]}];
-});
+app.controller('MainCtrl', ['$scope', 'prices',
+    function($scope, prices) {
+    $scope.weapons = prices.prices;
+    $scope.getPrice = function(data) {
+        for(i in data.names) {
+            prices.getPrice(data.weapon, i);
+        }
+    }
+}]);
+
+app.filter('retrievePrice', [function() {
+    return function(skinName, wepName) {
+        
+    }
+}]);
+
+app.factory('prices', ['$http', function($http) {
+    
+    var o = {
+        prices : [{weapon: "AWP", 
+                        names:
+                            [{name: "Asiimov", price: ""},
+                            {name: "Redline", price: ""},
+                            {name: "BOOM", price: ""}]},
+                        {weapon: "AK-47", 
+                        names:
+                            [{name: "Jaguar", price: ""},
+                            {name: "Redline", price: ""},
+                            {name: "Vulcan", price: ""}]},
+                        {weapon: "M4A1-S", 
+                        names:
+                            [{name: "Guardian", price:""},
+                            {name: "Nitro", price: ""},
+                            {name: "Atomic Alloy", price: ""}]}]
+    };
+
+    o.getPrices = function() {
+        return $http.get('/price/'+JSON.stringify(o.prices)).success(function(data) {
+            console.log(data);
+        })
+    }
+    return o;
+}]);
+
+app.config([
+    '$stateProvider',
+    '$urlRouterProvider',
+    function($stateProvider, $urlRouterProvider) {
+
+        $stateProvider
+        .state('home', {
+            url: '/home',
+            templateUrl: '/home.html',
+            controller: 'MainCtrl',
+            resolve: {
+                pricePromise : ['prices', function(prices) {
+                    return prices.getPrices();
+                }]
+            }
+        });
+
+        $urlRouterProvider.otherwise('home');
+    }]);
 
 
 $(function(){
