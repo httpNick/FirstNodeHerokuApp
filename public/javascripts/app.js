@@ -40,7 +40,7 @@ app.factory('prices', ['$http', function($http) {
 
     o.getPrices = function() {
         return $http.get('/price/'+JSON.stringify(o.prices)).success(function(data) {
-            console.log(data);
+            o.prices = data;
         })
     }
     return o;
