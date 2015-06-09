@@ -2,7 +2,7 @@ var port = process.env.PORT || 8080;
 var express = require('express');
 var http = require('http');
 var app = express();
-var server = http.createServer(app).listen(port);
+//var server = http.createServer(app).listen(port);
 
 var routes = require('./routes/index');
 
@@ -25,7 +25,7 @@ app.get('/', function(req, res, next) {
 
 module.exports = app;
 
-/*app.listen(port, function() {
+app.listen(port, function() {
     console.log('Our app is running on http://localhost:' + port);
-});*/
+});
 
