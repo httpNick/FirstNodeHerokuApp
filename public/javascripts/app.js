@@ -1,10 +1,18 @@
 
-var app = angular.module('httpCSGOStash', ['ui.router']);
+var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter']);
 
 
 app.controller('MainCtrl', ['$scope', 'prices',
     function($scope, prices) {
+    $scope.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 
+                     'G', 'H', 'I', 'J', 'K', 'L', 
+                     'M', 'N', 'O', 'P', 'Q', 'R', 
+                     'S', 'T', 'U', 'V', 'W', 'X', 
+                     'Y', 'Z'];
+  
+    
     $scope.weapons = prices.prices;
+    
     $scope.getPrice = function(data) {
         for(i in data.names) {
             prices.getPrice(data.weapon, i);
@@ -68,12 +76,14 @@ app.config([
 
 
 $(function(){
-  $('.btn btn-primary').on('hide.bs.collapse', function () {
-    $('#button')
+  $('#AWP').on('hide.bs.collapse', function () {
+    console.log('change to down');
+    $('#theButton')
     .html('<span class="glyphicon glyphicon-collapse-down"></span> AWP');
   })
-  $('.btn btn-primary').on('show.bs.collapse', function () {
-    $('#button')
+  $('#AWP').on('show.bs.collapse', function () {
+    console.log('change to up.');
+    $('#theButton')
     .html('<span class="glyphicon glyphicon-collapse-up"></span> AWP');
   })
 })

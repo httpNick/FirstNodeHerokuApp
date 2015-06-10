@@ -9,6 +9,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.4/angular-filter.min.js"></script>
     <script src="/javascripts/app.js"></script>
 </head>
 
@@ -19,12 +20,17 @@
     </div>
   </div>
 <script type="text/ng-template" id="/home.html">
+
  <div class="page-header">
     <h1>Nicks stash</h1>
   </div>
-
+    <div class=row ng-repeat="letters in alphabet | groupBy:4">
+    <div class="col-xs-3 letter-box" ng-repeat="letter in letters" >
+      <div>Letter {{$index+1}} is: <b> {{letter}}</b></div>
+    </div>
+  </div>
 <div ng-repeat="data in weapons">
-    <button id="btn" type="button" class="btn btn-primary" data-toggle="collapse" data-target="#{{data.weapon}}">
+    <button id='theButton' type="button" class="btn btn-primary" data-toggle="collapse" data-target="#{{data.weapon}}">
       <span class="glyphicon glyphicon-collapse-down"></span> 
     </button>
     <span class="label label-primary">{{data.weapon}}</span>
