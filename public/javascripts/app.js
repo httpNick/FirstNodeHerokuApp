@@ -10,7 +10,7 @@ app.controller('MainCtrl', ['$scope', 'prices',
                      'S', 'T', 'U', 'V', 'W', 'X', 
                      'Y', 'Z'];
   
-    
+
     $scope.weapons = prices.prices;
     
     $scope.getPrice = function(data) {
@@ -33,17 +33,23 @@ app.factory('prices', ['$http', function($http) {
                         names:
                             [{name: "Asiimov", price: ""},
                             {name: "Redline", price: ""},
-                            {name: "BOOM", price: ""}]},
+                            {name: "BOOM", price: ""},
+                            {name: "Hyper Beast", price: ""},
+                            {name: "Man-o'-war", price: ""}]},
                         {weapon: "AK-47", 
                         names:
                             [{name: "Jaguar", price: ""},
                             {name: "Redline", price: ""},
-                            {name: "Vulcan", price: ""}]},
+                            {name: "Vulcan", price: ""},
+                            {name: "Wasteland Rebel", price: ""},
+                            {name: "Aquamarine Revenge", price: ""}]},
                         {weapon: "M4A1-S", 
                         names:
                             [{name: "Guardian", price:""},
                             {name: "Nitro", price: ""},
-                            {name: "Atomic Alloy", price: ""}]}]
+                            {name: "Atomic Alloy", price: ""},
+                            {name: "Hyper Beast", price: ""},
+                            {name: "Cyrex", price: ""}]}]
     };
 
     o.getPrices = function() {
