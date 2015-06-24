@@ -2,13 +2,15 @@
 var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter']);
 
 
-app.controller('MainCtrl', ['$scope', 'prices',
-    function($scope, prices) {
+app.controller('MainCtrl', ['$scope', '$http', 'prices',
+    function($scope, $http, prices) {
 
     $scope.weapons = prices.prices;
 
-    $scope.selectMessage = function(wepName) {
-        console.log(wepName + " was selected");
+    $scope.selectMessage = function(wep) {
+        $http.get('/singleprice/' + JSON.stringify(wep)).success(function(data) {
+            console.log("success");
+        });
     };
 
 }]);
@@ -68,7 +70,7 @@ app.config([
     }]);
 
 
-$(function(){
+/*$(function(){
   $('#AWP').on('hide.bs.collapse', function () {
     console.log('change to down');
     $('#theButton')
@@ -79,7 +81,7 @@ $(function(){
     $('#theButton')
     .html('<span class="glyphicon glyphicon-collapse-up"></span> AWP');
   })
-})
+}) */
 
 /*
 var socket = io.connect('http://localhost:8080');

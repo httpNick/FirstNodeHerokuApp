@@ -6,7 +6,7 @@ var async = require('async');
 var getPrice = function(url, doneCallback) {
 	console.log(url.url + " Wep: " + url.wep + " Skin: " + url.skin);
 	requestify.get(url.url).then(function(response){
-		console.log(response.getBody());
+		//console.log(response.getBody());
 		url.info = response.getBody();
 		var lowest = url.info.lowest_price.split(';');
 		url.info.lowest_price = lowest[1];
@@ -16,11 +16,26 @@ var getPrice = function(url, doneCallback) {
 	});
 }
 
+var urlify = function(wep, skin, wear) {
+	return 'http://steamcommunity.com/market/priceoverview/'+
+				'?currency=1&appid=730&market_hash_name='
+				+encodeURI(wep)+encodeURI(' | ')+encodeURI(skin)+encodeURI(' ('+wear+')');
+}
+
+router.get('/singleprice/:data', function(req, res, next) {
+	var theData = JSON.parse(req.params.data);
+	var wepName = theData.weapon;
+	for (i = 0; i < theData.names.length; i++) {
+		var currSkin = theData.names[i].name;
+		console.log("URLIFIED: " + urlify(wepName, currSkin, 'Field-Tested'));
+		//add logic to GET request here for single weapon.
+	}
+});
+
 router.get('/price/:data', function(req, res, next) {
 	var theData = JSON.parse(req.params.data);
 	var results = [];
 	var urls = [];
-	console.log('got here');
 	for(i = 0; i < theData.length; i++) {
 		var currWep = theData[i].weapon;
 		for(j = 0; j < theData[i].names.length; j++) {
@@ -32,7 +47,7 @@ router.get('/price/:data', function(req, res, next) {
 		}
 	}
 	async.map(urls, getPrice, function(err, results) {
-		console.log(results[0].info.median_price + ' ' + results[0].skin);
+		//console.log(results[0].info.median_price + ' ' + results[0].skin);
 		var index = 0;
 		for(x = 0; x < theData.length; x++) {
 			for(y = 0; y < theData[x].names.length; y++) {
