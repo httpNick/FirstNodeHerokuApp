@@ -4,26 +4,13 @@ var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter']);
 
 app.controller('MainCtrl', ['$scope', 'prices',
     function($scope, prices) {
-    $scope.alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 
-                     'G', 'H', 'I', 'J', 'K', 'L', 
-                     'M', 'N', 'O', 'P', 'Q', 'R', 
-                     'S', 'T', 'U', 'V', 'W', 'X', 
-                     'Y', 'Z'];
-  
 
     $scope.weapons = prices.prices;
-    
-    $scope.getPrice = function(data) {
-        for(i in data.names) {
-            prices.getPrice(data.weapon, i);
-        }
-    }
-}]);
 
-app.filter('retrievePrice', [function() {
-    return function(skinName, wepName) {
-        
-    }
+    $scope.selectMessage = function(wepName) {
+        console.log(wepName + " was selected");
+    };
+
 }]);
 
 app.factory('prices', ['$http', function($http) {
