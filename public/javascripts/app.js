@@ -8,9 +8,17 @@ app.controller('MainCtrl', ['$scope', '$http', 'prices',
     $scope.weapons = prices.prices;
 
     $scope.selectMessage = function(wep) {
-        $http.get('/singleprice/' + JSON.stringify(wep)).success(function(data) {
-            console.log("success");
-        });
+        if (!wep.cached) {
+            $http.get('/singleprice/' + JSON.stringify(wep)).success(function(data) {
+                for(i = 0; i < prices.prices.length; i++) {
+                    if (prices.prices[i].weapon === data.weapon) {
+                        prices.prices[i].cached = true;
+                        prices.prices[i].names = data.names;
+                        break;
+                    }
+                }
+            });
+        }
     };
 
 }]);
@@ -19,6 +27,7 @@ app.factory('prices', ['$http', function($http) {
     
     var o = {
         prices : [{weapon: "AWP", 
+                    cached:  false,
                         names:
                             [{name: "Asiimov", price: ""},
                             {name: "Redline", price: ""},
@@ -26,6 +35,7 @@ app.factory('prices', ['$http', function($http) {
                             {name: "Hyper Beast", price: ""},
                             {name: "Man-o'-war", price: ""}]},
                         {weapon: "AK-47", 
+                        cached: false,
                         names:
                             [{name: "Jaguar", price: ""},
                             {name: "Redline", price: ""},
@@ -33,6 +43,7 @@ app.factory('prices', ['$http', function($http) {
                             {name: "Wasteland Rebel", price: ""},
                             {name: "Aquamarine Revenge", price: ""}]},
                         {weapon: "M4A1-S", 
+                        cached: false,
                         names:
                             [{name: "Guardian", price:""},
                             {name: "Nitro", price: ""},
@@ -59,11 +70,12 @@ app.config([
             url: '/home',
             templateUrl: '/home.html',
             controller: 'MainCtrl',
-            resolve: {
+            /* Updates all prices for weapons/skins before page loads if uncommented. */
+            /*resolve: {
                 pricePromise : ['prices', function(prices) {
                     return prices.getPrices();
                 }]
-            }
+            }*/
         });
 
         $urlRouterProvider.otherwise('home');

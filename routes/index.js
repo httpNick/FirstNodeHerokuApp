@@ -23,13 +23,23 @@ var urlify = function(wep, skin, wear) {
 }
 
 router.get('/singleprice/:data', function(req, res, next) {
+	var urls = [];
 	var theData = JSON.parse(req.params.data);
 	var wepName = theData.weapon;
 	for (i = 0; i < theData.names.length; i++) {
 		var currSkin = theData.names[i].name;
-		console.log("URLIFIED: " + urlify(wepName, currSkin, 'Field-Tested'));
 		//add logic to GET request here for single weapon.
+		urls.push({'url': urlify(wepName, currSkin, 'Field-Tested'), 'wep': wepName,
+			'skin': currSkin, 'info': ''});
 	}
+	async.map(urls, getPrice, function(err, results) {
+		var index = 0;
+		for(i = 0; i < theData.names.length; i++) {
+			theData.names[i].price = results[index].info;
+			index = index + 1;
+		}
+		res.json(theData);
+	});
 });
 
 router.get('/price/:data', function(req, res, next) {
