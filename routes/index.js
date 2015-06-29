@@ -32,6 +32,7 @@ router.get('/singleprice/:data', function(req, res, next) {
 		urls.push({'url': urlify(wepName, currSkin, 'Field-Tested'), 'wep': wepName,
 			'skin': currSkin, 'info': ''});
 	}
+	// force the async GET requests sync up.
 	async.map(urls, getPrice, function(err, results) {
 		var index = 0;
 		for(i = 0; i < theData.names.length; i++) {

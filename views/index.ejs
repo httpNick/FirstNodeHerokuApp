@@ -13,12 +13,12 @@
     <script src="/javascripts/app.js"></script>
 </head>
 
-<nav class="nav nav-pills navbar-fixed-top nav-pills-inverse">
+<nav class="nav nav-pills navbar-fixed-top nav-pills-inverse" ng-controller="NavCtrl">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Nicks Stash</a>
     </div>
-    <li class="active"><a href="#">CS:GO<span class="sr-only">(current)</span></a></li>
-    <li><a href="#">Nothing</a></li>
+    <li ng-class="{ active: isActive('/home')}"><a href="#/home">CS:GO</a></li>
+    <li ng-class="{ active: isActive('/nothing')}" ><a href="#/nothing">Nothing</a></li>
 </nav>
 
 <body>
@@ -27,6 +27,8 @@
       <ui-view></ui-view>
     </div>
   </div>
+
+
 <script type="text/ng-template" id="/home.html">
 
  <div class="page-header">
@@ -50,5 +52,11 @@
 </div>
 
 </script>
+
+<script type="text/ng-template" id="/nothing.html">
+    <div class="page-header">
+        <h1>{{nothing}}</h1>
+    </div>
+    </script>
 </body>
 </html>

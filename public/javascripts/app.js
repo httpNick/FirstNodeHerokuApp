@@ -1,6 +1,15 @@
 
 var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter']);
 
+/* Very cool trick from: 
+http://stackoverflow.com/questions/16199418/how-do-i-implement-the-bootstrap-navbar-active-class-with-angular-js */
+
+app.controller('NavCtrl', ['$scope', '$location', 
+    function($scope, $location) {
+        $scope.isActive = function(viewLocation) {
+            return viewLocation === $location.path();
+        };
+    }]);
 
 app.controller('MainCtrl', ['$scope', '$http', 'prices',
     function($scope, $http, prices) {
@@ -22,6 +31,11 @@ app.controller('MainCtrl', ['$scope', '$http', 'prices',
     };
 
 }]);
+
+app.controller('NothingCtrl', ['$scope',
+    function($scope) {
+        $scope.nothing = "this is a nothing.";
+    }]);
 
 app.factory('prices', ['$http', function($http) {
     
@@ -69,13 +83,20 @@ app.config([
         .state('home', {
             url: '/home',
             templateUrl: '/home.html',
-            controller: 'MainCtrl',
+            controller: 'MainCtrl'
             /* Updates all prices for weapons/skins before page loads if uncommented. */
             /*resolve: {
                 pricePromise : ['prices', function(prices) {
                     return prices.getPrices();
                 }]
             }*/
+        });
+        
+        $stateProvider
+        .state('nothing', {
+            url: '/nothing',
+            templateUrl: '/nothing.html',
+            controller: 'NothingCtrl'
         });
 
         $urlRouterProvider.otherwise('home');
