@@ -4,7 +4,7 @@ var requestify = require('requestify');
 var async = require('async');
 
 var getPrice = function(url, doneCallback) {
-	console.log(url.url + " Wep: " + url.wep + " Skin: " + url.skin);
+	//console.log(url.url + " Wep: " + url.wep + " Skin: " + url.skin);
 	requestify.get(url.url).then(function(response){
 		//console.log(response.getBody());
 		url.info = response.getBody();
@@ -36,7 +36,7 @@ router.get('/singleprice/:data', function(req, res, next) {
 	async.map(urls, getPrice, function(err, results) {
 		var index = 0;
 		for(i = 0; i < theData.names.length; i++) {
-			theData.names[i].price = results[index].info;
+			theData.names[i].wears['FieldTested'] = results[index].info;
 			index = index + 1;
 		}
 		res.json(theData);
@@ -62,7 +62,7 @@ router.get('/price/:data', function(req, res, next) {
 		var index = 0;
 		for(x = 0; x < theData.length; x++) {
 			for(y = 0; y < theData[x].names.length; y++) {
-				theData[x].names[y].price = results[index].info;
+				theData[x].names[y].FieldTested = results[index].info;
 				index = index + 1;
 			}
 		}

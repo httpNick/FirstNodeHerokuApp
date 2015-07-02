@@ -1,5 +1,5 @@
 
-var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter']);
+var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter', 'ui.bootstrap.modal']);
 
 /* Very cool trick from: 
 http://stackoverflow.com/questions/16199418/how-do-i-implement-the-bootstrap-navbar-active-class-with-angular-js */
@@ -32,9 +32,27 @@ app.controller('MainCtrl', ['$scope', '$http', 'prices',
 
 }]);
 
+app.controller('SkinCtrl', ['$scope', 'skin',
+    function($scope, skin) {
+        $scope.skin = skin;
+        $scope.test = {a:'a', b:'b', c:'c'}
+    }]);
+
 app.controller('NothingCtrl', ['$scope',
     function($scope) {
         $scope.nothing = "this is a nothing.";
+        $scope.posts = {};
+        $scope.open = function() {
+          $scope.showModal = true;
+        };
+
+        $scope.ok = function() {
+          $scope.showModal = false;
+        };
+
+        $scope.cancel = function() {
+          $scope.showModal = false;
+        };
     }]);
 
 app.factory('prices', ['$http', function($http) {
@@ -43,27 +61,132 @@ app.factory('prices', ['$http', function($http) {
         prices : [{weapon: "AWP", 
                     cached:  false,
                         names:
-                            [{name: "Asiimov", price: ""},
-                            {name: "Redline", price: ""},
-                            {name: "BOOM", price: ""},
-                            {name: "Hyper Beast", price: ""},
-                            {name: "Man-o'-war", price: ""}]},
+                            [{name: "Asiimov",
+                                wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Redline", 
+                                wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "BOOM", 
+                               wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Hyper Beast", 
+                               wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Man-o'-war", 
+                               wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }}]},
                         {weapon: "AK-47", 
                         cached: false,
                         names:
-                            [{name: "Jaguar", price: ""},
-                            {name: "Redline", price: ""},
-                            {name: "Vulcan", price: ""},
-                            {name: "Wasteland Rebel", price: ""},
-                            {name: "Aquamarine Revenge", price: ""}]},
+                            [{name: "Jaguar", 
+                               wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Redline", 
+                                wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Vulcan", 
+                            wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Wasteland Rebel", 
+                               wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Aquamarine Revenge", 
+                                 wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }}]},
                         {weapon: "M4A1-S", 
                         cached: false,
                         names:
-                            [{name: "Guardian", price:""},
-                            {name: "Nitro", price: ""},
-                            {name: "Atomic Alloy", price: ""},
-                            {name: "Hyper Beast", price: ""},
-                            {name: "Cyrex", price: ""}]}]
+                            [{name: "Guardian", 
+                              wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Nitro", 
+                                wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Atomic Alloy", 
+                                wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Hyper Beast", 
+                              wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }},
+                            {name: "Cyrex", 
+                                wears: { 
+                                FieldTested : "",
+                                WellWorn : "",
+                                FactoryNew : "",
+                                BattleScarred :"",
+                                MinimalWear : ""
+                                }}]}]
     };
 
     o.getPrices = function() {
@@ -90,6 +213,28 @@ app.config([
                     return prices.getPrices();
                 }]
             }*/
+        });
+
+        $stateProvider
+        .state('wep', {
+            url: '/wep/{wep}-{skin}',
+            templateUrl: '/wep.html',
+            controller: 'SkinCtrl',
+            resolve: {
+                skin : ['$stateParams', 'prices',
+                function($stateParams, prices) {
+                    for (i = 0; i < prices.prices.length; i++) {
+                        if (prices.prices[i].weapon === $stateParams.wep) {
+                            for (j = 0; j < prices.prices[i].names.length; j++) {
+                                if(prices.prices[i].names[j].name === $stateParams.skin) {
+                                    console.log(prices.prices[i].names[j])
+                                    return prices.prices[i].names[j];
+                                }
+                            }
+                        }
+                    }
+                }]
+            }
         });
         
         $stateProvider
