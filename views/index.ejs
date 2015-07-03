@@ -45,7 +45,7 @@
 <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade" ng-repeat = "wep in weapons" id="{{wep.weapon}}">
     <div ng-repeat="skins in wep.names">
-            <a href="#/wep/{{wep.weapon}}-{{skins.name}}"><img ng-src="images/{{wep.weapon}}-{{skins.name}}.png" style="width:50px;height:50px" /></a>
+            <a href="#/wep/{{wep.weapon}} | {{skins.name}}"><img ng-src="images/{{wep.weapon}}-{{skins.name}}.png" style="width:50px;height:50px" /></a>
             <span class="label label-danger"> {{skins.name}} </span>
             <span class="label label-success">  <strong>Field-Tested</strong>: Lowest: <strong>{{skins.wears['FieldTested'].lowest_price | currency:"USD$"}}</strong> Median: <strong>{{skins.wears['FieldTested'].median_price | currency:"USD$"}}</strong></span>
         </div>
@@ -56,29 +56,37 @@
 
 <script type="text/ng-template" id="/wep.html">
     <div class="page-header">
-        <h1>{{skin.name}}</h1>
+        <h1>{{wep}} | {{skin.name}}</h1>
     </div>
     
     <div class="row">
         <div class="col-md-6"> 
-            <span class="label label-danger"> Field Tested </span>
-            <span class="label label-success"> {{skin.wears['FieldTested']}} </span>
+            <h3>Well-Worn</h3>
+            <ul class = "list-group">
+                <li class= "list-group-item">Lowest: {{skin.wears['WellWorn'].lowest_price}}</li>
+                <li class= "list-group-item">Median: {{skin.wears['WellWorn'].median_price}}</li>
+            </ul>
         </div>
         <div class="col-md-6"> 
-            <span class="label label-danger"> Field Tested </span>
-            <span class="label label-success"> {{skin.wears['FieldTested']}} </span>
+            <h3>Battle-Scarred</h3>
+            <ul class = "list-group">
+                <li class= "list-group-item">Lowest: {{skin.wears['BattleScarred'].lowest_price}}</li>
+                <li class= "list-group-item">Median: {{skin.wears['BattleScarred'].median_price}}</li>
+            </ul>
         </div>
         <div class="col-md-6">
-            <span class="label label-danger"> Field Tested </span>
-            <span class="label label-success"> {{skin.wears['FieldTested']}} </span>
+            <h3>Field-Tested</h3>
+            <ul class = "list-group">
+                <li class= "list-group-item">Lowest: {{skin.wears['FieldTested'].lowest_price}}</li>
+                <li class= "list-group-item">Median: {{skin.wears['FieldTested'].median_price}}</li>
+            </ul>
         </div>
         <div class="col-md-6">
-            <span class="label label-danger"> Field Tested </span>
-            <span class="label label-success"> {{skin.wears['FieldTested']}} </span>
-        </div>
-        <div class="col-md-6">
-            <span class="label label-danger"> Field Tested </span>
-            <span class="label label-success"> {{skin.wears['FieldTested']}} </span>
+            <h3>Minimal Wear</h3>
+            <ul class = "list-group">
+                <li class= "list-group-item">Lowest: {{skin.wears['MinimalWear'].lowest_price}}</li>
+                <li class= "list-group-item">Median: {{skin.wears['MinimalWear'].median_price}}</li>
+            </ul>
         </div>
     </div>
 

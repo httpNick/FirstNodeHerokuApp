@@ -32,10 +32,10 @@ app.controller('MainCtrl', ['$scope', '$http', 'prices',
 
 }]);
 
-app.controller('SkinCtrl', ['$scope', 'skin',
-    function($scope, skin) {
+app.controller('SkinCtrl', ['$scope', 'skin', 'wep',
+    function($scope, skin, wep) {
         $scope.skin = skin;
-        $scope.test = {a:'a', b:'b', c:'c'}
+        $scope.wep = wep;
     }]);
 
 app.controller('NothingCtrl', ['$scope',
@@ -217,7 +217,7 @@ app.config([
 
         $stateProvider
         .state('wep', {
-            url: '/wep/{wep}-{skin}',
+            url: '/wep/{wep} | {skin}',
             templateUrl: '/wep.html',
             controller: 'SkinCtrl',
             resolve: {
@@ -227,12 +227,15 @@ app.config([
                         if (prices.prices[i].weapon === $stateParams.wep) {
                             for (j = 0; j < prices.prices[i].names.length; j++) {
                                 if(prices.prices[i].names[j].name === $stateParams.skin) {
-                                    console.log(prices.prices[i].names[j])
                                     return prices.prices[i].names[j];
                                 }
                             }
                         }
                     }
+                }],
+                wep: ['$stateParams', 
+                    function($stateParams) {
+                        return $stateParams.wep;
                 }]
             }
         });
