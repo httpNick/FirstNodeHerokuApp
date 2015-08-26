@@ -1,15 +1,15 @@
+var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter', 'ui.bootstrap.modal', 'chart.js']);
 
-var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter', 'ui.bootstrap.modal']);
-
-/* Very cool trick from: 
+/* Very cool trick from:
 http://stackoverflow.com/questions/16199418/how-do-i-implement-the-bootstrap-navbar-active-class-with-angular-js */
 
-app.controller('NavCtrl', ['$scope', '$location', 
+app.controller('NavCtrl', ['$scope', '$location',
     function($scope, $location) {
         $scope.isActive = function(viewLocation) {
             return viewLocation === $location.path();
         };
     }]);
+
 
 app.controller('MainCtrl', ['$scope', '$http', 'prices',
     function($scope, $http, prices) {
@@ -19,17 +19,14 @@ app.controller('MainCtrl', ['$scope', '$http', 'prices',
     $scope.selectMessage = function(wep) {
         if (!wep.cached) {
             $http.get('/singleprice/' + JSON.stringify(wep)).success(function(data) {
-                for(i = 0; i < prices.prices.length; i++) {
-                    if (prices.prices[i].weapon === data.weapon) {
-                        prices.prices[i].cached = true;
-                        prices.prices[i].names = data.names;
-                        break;
-                    }
-                }
+                data.cached = true;
+                var i = prices.prices.length;
+                while (i--)
+                  if (prices.prices[i].weapon === data.weapon)
+                    prices.prices[i] = data;
             });
         }
     };
-
 }]);
 
 app.controller('SkinCtrl', ['$scope', 'skin', 'wep',
@@ -41,146 +38,165 @@ app.controller('SkinCtrl', ['$scope', 'skin', 'wep',
 app.controller('NothingCtrl', ['$scope',
     function($scope) {
         $scope.nothing = "this is a nothing.";
-        $scope.posts = {};
-        $scope.open = function() {
-          $scope.showModal = true;
-        };
-
-        $scope.ok = function() {
-          $scope.showModal = false;
-        };
-
-        $scope.cancel = function() {
-          $scope.showModal = false;
-        };
+        $scope.labels = ['2006', '2007', '2008', '2009', '2010',
+            '2011', '2012'];
+        $scope.series = ['Series A', 'Series B'];
+        $scope.data = [
+            [65, 59, 80, 81, 56, 55, 40],
+            [28, 48, 40, 19, 86, 27, 90]
+  ];
     }]);
 
+{
+
+}
+
 app.factory('prices', ['$http', function($http) {
-    
+
     var o = {
-        prices : [{weapon: "AWP", 
+      prices : [
+        {
+          weapon: 'AWP',
+          cached: false,
+          skins: ['Asiimov', 'Redline', 'BOOM', 'Hyper Beast', 'Man-o\'-war'],
+          skinData: {}
+        },{
+          weapon: 'AK-47',
+          cached: false,
+          skins: ['Vulcan', 'Jaguar', 'Aquamarine Revenge', 'Wasteland Rebel', 'Redline'],
+          skinData: {}
+        },{
+          weapon: 'M4A1-S',
+          cached: false,
+          skins: ['Hyper Beast', 'Guardian', 'Nitro', 'Atomic Alloy', 'Cyrex'],
+          skinData: {}
+        }
+      ]
+    }
+    var z = {
+        prices : [{weapon: "AWP",
                     cached:  false,
                         names:
                             [{name: "Asiimov",
-                                wears: { 
+                                wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Redline", 
-                                wears: { 
+                            {name: "Redline",
+                                wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "BOOM", 
-                               wears: { 
+                            {name: "BOOM",
+                               wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Hyper Beast", 
-                               wears: { 
+                            {name: "Hyper Beast",
+                               wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Man-o'-war", 
-                               wears: { 
+                            {name: "Man-o'-war",
+                               wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }}]},
-                        {weapon: "AK-47", 
+                        {weapon: "AK-47",
                         cached: false,
                         names:
-                            [{name: "Jaguar", 
-                               wears: { 
+                            [{name: "Jaguar",
+                               wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Redline", 
-                                wears: { 
+                            {name: "Redline",
+                                wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Vulcan", 
-                            wears: { 
+                            {name: "Vulcan",
+                            wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Wasteland Rebel", 
-                               wears: { 
+                            {name: "Wasteland Rebel",
+                               wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Aquamarine Revenge", 
-                                 wears: { 
+                            {name: "Aquamarine Revenge",
+                                 wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }}]},
-                        {weapon: "M4A1-S", 
+                        {weapon: "M4A1-S",
                         cached: false,
                         names:
-                            [{name: "Guardian", 
-                              wears: { 
+                            [{name: "Guardian",
+                              wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Nitro", 
-                                wears: { 
+                            {name: "Nitro",
+                                wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Atomic Alloy", 
-                                wears: { 
+                            {name: "Atomic Alloy",
+                                wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Hyper Beast", 
-                              wears: { 
+                            {name: "Hyper Beast",
+                              wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
                                 BattleScarred :"",
                                 MinimalWear : ""
                                 }},
-                            {name: "Cyrex", 
-                                wears: { 
+                            {name: "Cyrex",
+                                wears: {
                                 FieldTested : "",
                                 WellWorn : "",
                                 FactoryNew : "",
@@ -188,12 +204,6 @@ app.factory('prices', ['$http', function($http) {
                                 MinimalWear : ""
                                 }}]}]
     };
-
-    o.getPrices = function() {
-        return $http.get('/price/'+JSON.stringify(o.prices)).success(function(data) {
-            o.prices = data;
-        })
-    }
     return o;
 }]);
 
@@ -223,23 +233,21 @@ app.config([
             resolve: {
                 skin : ['$stateParams', 'prices',
                 function($stateParams, prices) {
-                    for (i = 0; i < prices.prices.length; i++) {
-                        if (prices.prices[i].weapon === $stateParams.wep) {
-                            for (j = 0; j < prices.prices[i].names.length; j++) {
-                                if(prices.prices[i].names[j].name === $stateParams.skin) {
-                                    return prices.prices[i].names[j];
-                                }
-                            }
-                        }
-                    }
+                    var i = prices.prices.length;
+                    while (i--)
+                      if (prices.prices[i].weapon === $stateParams.wep)
+                        return prices.prices[i].skinData[$stateParams.skin];
                 }],
-                wep: ['$stateParams', 
+                wep: ['$stateParams',
                     function($stateParams) {
-                        return $stateParams.wep;
+                        return {
+                            wep: $stateParams.wep,
+                            skin: $stateParams.skin
+                        };
                 }]
             }
         });
-        
+
         $stateProvider
         .state('nothing', {
             url: '/nothing',
@@ -249,27 +257,3 @@ app.config([
 
         $urlRouterProvider.otherwise('home');
     }]);
-
-
-/*$(function(){
-  $('#AWP').on('hide.bs.collapse', function () {
-    console.log('change to down');
-    $('#theButton')
-    .html('<span class="glyphicon glyphicon-collapse-down"></span> AWP');
-  })
-  $('#AWP').on('show.bs.collapse', function () {
-    console.log('change to up.');
-    $('#theButton')
-    .html('<span class="glyphicon glyphicon-collapse-up"></span> AWP');
-  })
-}) */
-
-/*
-var socket = io.connect('http://localhost:8080');
-socket.emit('itemPrice', 'http://steamcommunity.com/market/priceoverview/?callback=JSON_CALLBACK&currency=3&appid=730&market_hash_name=StatTrak%E2%84%A2%20P250%20%7C%20Steel%20Disruption%20%28Factory%20New%29');
-socket.emit('itemPrice', 'http://steamcommunity.com/market/listings/730/FAMAS%20%7C%20Neural%20Net%20%28Well-Worn%29')
-socket.on('returnPrice', function(response) {
-    console.log(response);
-});
-
-*/

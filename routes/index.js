@@ -1,13 +1,38 @@
 var express = require('express');
 var router = express.Router();
-var requestify = require('requestify');
-var async = require('async');
+var csgo = require('csgo-market');
+var Q = require('q');
 
-var count = 0;
+var wears = ['Field-Tested', 'Minimal Wear', 'Well-Worn', 'Battle-Scarred', 'Factory New'];
 
-var wears = ["Field-Tested", "Minimal Wear", "Well-Worn", "Battle-Scarred"]
+router.get('/singleprice/:data', function(req, res, next) {
+	var promises = [];
+	var items = JSON.parse(req.params.data);
+	items.skins.forEach(function(skin) {
+		items.skinData[skin] = {};
+		wears.forEach(function(wear) {
+			promises.push(csgo.getSinglePriceAsync(items.weapon, skin, wear, false)
+			.then(function(data) {
+				if (data.lowest_price) {
+					data.lowest_price = data.lowest_price.split(';')[0];
+				} else {
+					items.skinData[skin][wear].lowest_price = "No Data Exists";
+				}
+				if (data.median_price) {
+					data.median_price = data.median_price.split(';')[0];
+				} else {
+					items.skinData[skin][wear].median_price = "No Data Exists";
+				}
+				items.skinData[skin][wear] = data;
+			}));
+		});
+	});
+	return Q.allSettled(promises).then(function() {
+		res.json(items);
+	})
+});
 
-var getPrice = function(url, doneCallback) {
+/*var getPrice = function(url, doneCallback) {
 	//console.log(url.url + " Wep: " + url.wep + " Skin: " + url.skin);
 	requestify.get(url.url).then(
 		function(response){
@@ -27,7 +52,7 @@ var getPrice = function(url, doneCallback) {
 		});
 }
 
-var urlify = function(wep, skin, wear) {				
+var urlify = function(wep, skin, wear) {
 	return 'http://steamcommunity.com/market/priceoverview/'+
 				'?currency=1&appid=730&market_hash_name='
 				+encodeURI(wep)+encodeURI(' | ')+encodeURI(skin)+encodeURI(' ('+wear+')');
@@ -63,38 +88,6 @@ router.get('/singleprice/:data', function(req, res, next) {
 	}, function(err, results) {
 		console.log("error in async map.");
 	});
-});
-
-
-
-//////////////////////////////////////////////////////////////////////////////
-
-
-router.get('/price/:data', function(req, res, next) {
-	var theData = JSON.parse(req.params.data);
-	var results = [];
-	var urls = [];
-	for(i = 0; i < theData.length; i++) {
-		var currWep = theData[i].weapon;
-		for(j = 0; j < theData[i].names.length; j++) {
-			var currSkin = theData[i].names[j].name;
-			var currURL = 'http://steamcommunity.com/market/priceoverview/'+
-				'?currency=1&appid=730&market_hash_name='
-				+encodeURI(currWep)+encodeURI(' | ')+encodeURI(currSkin)+encodeURI(' (Field-Tested)');
-			urls.push({'url': currURL, 'wep': currWep, 'skin' : currSkin, 'info' : ''});
-		}
-	}
-	async.map(urls, getPrice, function(err, results) {
-		//console.log(results[0].info.median_price + ' ' + results[0].skin);
-		var index = 0;
-		for(x = 0; x < theData.length; x++) {
-			for(y = 0; y < theData[x].names.length; y++) {
-				theData[x].names[y].FieldTested = results[index].info;
-				index = index + 1;
-			}
-		}
-		res.json(theData);
-	})
-});
+}); */
 
 module.exports = router;
