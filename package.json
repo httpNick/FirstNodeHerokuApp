@@ -3,6 +3,7 @@
   "description": "Our sample Node to Heroku app",
   "main": "server.js",
   "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install",
     "start": "node server.js"
   },
   "dependencies": {
