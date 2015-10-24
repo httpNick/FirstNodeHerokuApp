@@ -1,0 +1,36 @@
+[
+  {
+    "name" : "AWP",
+    "cached" : false,
+    "skins" : [
+        "Asiimov",
+        "Boom",
+        "Man-o'-war"
+      ],
+      "skinData" : {}
+  },
+  {
+    "name" : "AK-47",
+    "cached" : false,
+    "skins" : [
+        "Jaguar",
+        "Redline",
+        "Vulcan",
+        "Wasteland Rebel",
+        "Aquamarine Revenge"
+      ],
+      "skinData" : {}
+  },
+  {
+    "name" : "M4A1-S",
+    "cached" : false,
+    "skins" : [
+        "Hyper Beast",
+        "Guardian",
+        "Cyrex",
+        "Atomic Alloy",
+        "Nitro"
+      ],
+    "skinData" : {}
+  }
+]

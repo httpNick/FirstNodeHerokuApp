@@ -15,7 +15,8 @@ router.get('/singleprice/:data', function(req, res, next) {
 				median_price : "No Data Exists",
 				lowest_price : "No Data Exists"
 			}
-			promises.push(csgo.getSinglePriceAsync(items.weapon, skin, wear, false)
+			promises
+			.push(csgo.getSinglePriceAsync(items.name, skin, wear, false)
 			.then(function(data) {
 				if (data.lowest_price) data.lowest_price = data.lowest_price.split(';')[0];
 				if (data.median_price) data.median_price = data.median_price.split(';')[0];
