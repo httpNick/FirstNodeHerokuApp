@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.4/angular-filter.min.js"></script>
     <script src="/javascripts/angular-ui-bootstrap-modal.js"></script>
     <script src="/javascripts/app.js"></script>
+    <script src="/javascripts/controllers/mainctrl.js"></script>
 </head>
   <ng-include
     src="'/partials/nav.ejs'">
@@ -27,22 +28,28 @@
       </div>
     </div>
 
-  <script type="text/ng-template" id="/home.html">
-    <ng-include
-      src="'/partials/weptabs.ejs'">
-    </ng-include>
-  </script>
+    <script type="text/ng-template" id="/home.html">
+      <ng-include
+        src="'/partials/weptabs.ejs'">
+      </ng-include>
+    </script>
 
-  <script type="text/ng-template" id="/wep.html">
-    <ng-include
-      src="'/partials/singlewep.ejs'">
-    </ng-include>
-  </script>
+    <script type="text/ng-template" id="/wep.html">
+      <ng-include
+        src="'/partials/singlewep.ejs'">
+      </ng-include>
+    </script>
 
-  <script type="text/ng-template" id="/nothing.html">
-    <ng-include
-      src="'/partials/nothing.ejs'">
-    </ng-include>
-  </script>
+    <script type="text/ng-template" id="/nothing.html">
+      <ng-include
+        src="'/partials/nothing.ejs'">
+      </ng-include>
+    </script>
+
+    <script type="text/ng-template" id="/search.html">
+      <ng-include
+        src="'partials/search.ejs'">
+      </ng-include>
+    </script>
   </body>
 </html>

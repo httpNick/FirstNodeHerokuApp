@@ -1,57 +1,6 @@
-var app = angular.module('httpCSGOStash', ['ui.router', 'angular.filter', 'ui.bootstrap.modal', 'chart.js']);
+angular.module('httpCSGOStash', ['ui.router', 'angular.filter', 'ui.bootstrap.modal', 'chart.js']);
 
-/* Very cool trick from:
-http://stackoverflow.com/questions/16199418/how-do-i-implement-the-bootstrap-navbar-active-class-with-angular-js */
-
-app.controller('NavCtrl', ['$scope', '$location',
-    function($scope, $location) {
-        $scope.isActive = function(viewLocation) {
-            return viewLocation === $location.path();
-        };
-    }]);
-
-
-app.controller('MainCtrl', ['$scope', '$http', 'prices',
-    function($scope, $http, prices) {
-
-    $scope.weapons = prices.prices;
-
-    $scope.selectMessage = function(wep) {
-        if (!wep.cached) {
-            $http.get('/singleprice/' + JSON.stringify(wep)).success(function(data) {
-                data.cached = true;
-                var i = prices.prices.length;
-                while (i--)
-                  if (prices.prices[i].weapon === data.weapon)
-                    prices.prices[i] = data;
-            });
-        }
-    };
-}]);
-
-app.controller('SkinCtrl', ['$scope', 'skin', 'wep',
-    function($scope, skin, wep) {
-        $scope.skin = skin;
-        $scope.wep = wep;
-    }]);
-
-app.controller('NothingCtrl', ['$scope',
-    function($scope) {
-        $scope.nothing = "this is a nothing.";
-        $scope.labels = ['2006', '2007', '2008', '2009', '2010',
-            '2011', '2012'];
-        $scope.series = ['Series A', 'Series B'];
-        $scope.data = [
-            [65, 59, 80, 81, 56, 55, 40],
-            [28, 48, 40, 19, 86, 27, 90]
-  ];
-    }]);
-
-{
-
-}
-
-app.factory('prices', ['$http', function($http) {
+angular.module('httpCSGOStash').factory('prices', ['$http', function($http) {
 
     var o = {
       prices : [
@@ -207,7 +156,7 @@ app.factory('prices', ['$http', function($http) {
     return o;
 }]);
 
-app.config([
+angular.module('httpCSGOStash').config([
     '$stateProvider',
     '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
@@ -253,6 +202,12 @@ app.config([
             url: '/nothing',
             templateUrl: '/nothing.html',
             controller: 'NothingCtrl'
+        });
+
+        $stateProvider
+        .state('search', {
+          url: '/search',
+          templateUrl: '/search.html'
         });
 
         $urlRouterProvider.otherwise('home');
