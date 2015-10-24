@@ -16,91 +16,33 @@
     <script src="/javascripts/angular-ui-bootstrap-modal.js"></script>
     <script src="/javascripts/app.js"></script>
 </head>
+  <ng-include
+    src="'/partials/nav.ejs'">
+  </ng-include>
 
-<nav class="nav nav-pills navbar-fixed-top nav-pills-inverse" ng-controller="NavCtrl">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#/home">Nicks Stash</a>
-    </div>
-    <li ng-class="{ active: isActive('/home')}"><a href="#/home">CS:GO</a></li>
-    <li ng-class="{ active: isActive('/nothing')}" ><a href="#/nothing">Nothing</a></li>
-</nav>
-
-<body>
+  <body>
     <div class=row>
-    <div class="col-md-6 col-md-offset-3">
-      <ui-view></ui-view>
-    </div>
-  </div>
-
-
-<script type="text/ng-template" id="/home.html">
-
- <div class="page-header">
-    <h1>CS:GO Skin Pricing</h1>
-  </div>
-
-<ul class="nav nav-tabs">
-  <li ng-repeat="wep in weapons">
-    <a href="#{{wep.weapon}}" data-toggle="tab" aria-expanded="false" ng-click="selectMessage(wep)">
-    {{wep.weapon}}</a></li>
-</ul>
-
-<div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade" ng-repeat = "wep in weapons" id="{{wep.weapon}}">
-    <div ng-repeat="skin in wep.skins">
-            <a href="#/wep/{{wep.weapon}} | {{skin}}"><img ng-src="images/{{wep.weapon}}-{{skin}}.png" style="width:50px;height:50px" /></a>
-            <span class="label label-danger"> {{skin}} </span>
-            <span class="label label-success">  <strong>Field-Tested</strong>: Lowest: <strong>{{wep.skinData[skin]['Field-Tested'].lowest_price}}</strong> Median: <strong>{{wep.skinData[skin]['Field-Tested'].median_price}}</strong></span>
-        </div>
-</div>
-</div>
-
-</script>
-
-<script type="text/ng-template" id="/wep.html">
-    <div class="page-header">
-        <h1>{{wep.wep}} | {{wep.skin}}</h1>
+      <div class="col-md-6 col-md-offset-3">
+        <ui-view></ui-view>
+      </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <h3>Well-Worn</h3>
-            <ul class = "list-group">
-                <li class= "list-group-item">Lowest: {{skin['Well-Worn'].lowest_price}}</li>
-                <li class= "list-group-item">Median: {{skin['Well-Worn'].median_price}}</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <h3>Battle-Scarred</h3>
-            <ul class = "list-group">
-                <li class= "list-group-item">Lowest: {{skin['Battle-Scarred'].lowest_price}}</li>
-                <li class= "list-group-item">Median: {{skin['Battle-Scarred'].median_price}}</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <h3>Field-Tested</h3>
-            <ul class = "list-group">
-                <li class= "list-group-item">Lowest: {{skin['Field-Tested'].lowest_price}}</li>
-                <li class= "list-group-item">Median: {{skin['Field-Tested'].median_price}}</li>
-            </ul>
-        </div>
-        <div class="col-md-6">
-            <h3>Minimal Wear</h3>
-            <ul class = "list-group">
-                <li class= "list-group-item">Lowest: {{skin['Minimal Wear'].lowest_price}}</li>
-                <li class= "list-group-item">Median: {{skin['Minimal Wear'].median_price}}</li>
-            </ul>
-        </div>
-    </div>
+  <script type="text/ng-template" id="/home.html">
+    <ng-include
+      src="'/partials/weptabs.ejs'">
+    </ng-include>
+  </script>
 
-</script>
+  <script type="text/ng-template" id="/wep.html">
+    <ng-include
+      src="'/partials/singlewep.ejs'">
+    </ng-include>
+  </script>
 
-<script type="text/ng-template" id="/nothing.html">
-    <div class="page-header">
-        <h1>{{nothing}}</h1>
-    </div>
-<canvas id="bar" class="chart chart-line" data="data"
-  labels="labels"></canvas>
-    </script>
-</body>
+  <script type="text/ng-template" id="/nothing.html">
+    <ng-include
+      src="'/partials/nothing.ejs'">
+    </ng-include>
+  </script>
+  </body>
 </html>
