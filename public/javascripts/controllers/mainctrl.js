@@ -12,7 +12,7 @@ angular.module('httpCSGOStash')
           });
 
       $scope.selectMessage = function(wep) {
-        if (!wep.cached) {
+        if (!wep.cached)
           $http
           .get('/singleprice/' + JSON.stringify(wep))
           .success(function(data) {
@@ -26,7 +26,5 @@ angular.module('httpCSGOStash')
             });
           });
         }
-      };
     }
-  ]
-);
+  ]);
