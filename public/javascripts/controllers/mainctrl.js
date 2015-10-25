@@ -17,14 +17,13 @@ angular.module('httpCSGOStash')
           .get('/singleprice/' + JSON.stringify(wep))
           .success(function(data) {
             data.cached = true;
-            var i = $scope.weapons.length;
-            while (i--) {
-              if ($scope.weapons[i].name === data.name) {
-                $scope.weapons[i] = data;
-                itemData.data = $scope.weapons;
-                return;
-              }
-            }
+            $scope.weapons.find(function(wep, index, arr) {
+              return wep.name === data.name
+                && (
+                    $scope.weapons[index] = data,
+                    itemData.data = $scope.weapons
+                   )
+            });
           });
         }
       };
