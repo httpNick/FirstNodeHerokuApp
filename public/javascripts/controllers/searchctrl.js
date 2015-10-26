@@ -15,6 +15,14 @@ angular.module('httpCSGOStash')
         angular.forEach($scope.weapons, function(weapon) {
           if (weapon.name.toLowerCase().indexOf(inputText.toLowerCase()) > -1) {
             $scope.results.push(weapon);
+          } else {
+            angular.forEach(weapon.skins, function(skin) {
+              if (skin.toLowerCase().indexOf(inputText.toLowerCase()) > -1) {
+                if ($scope.results.indexOf(weapon) < 0) {
+                  $scope.results.push(weapon);
+                }
+              }
+            })
           }
         });
       }
