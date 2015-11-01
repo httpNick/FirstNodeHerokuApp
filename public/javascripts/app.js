@@ -42,7 +42,6 @@ angular.module('httpCSGOStash').config([
       templateUrl: '/wep.html',
       controller: 'WepCtrl',
       resolve: {
-        return;
       }
     })
 
