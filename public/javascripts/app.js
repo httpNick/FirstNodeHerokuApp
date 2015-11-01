@@ -11,7 +11,7 @@ angular.module('httpCSGOStash').factory('itemData', ['$http', function($http) {
       return {
         get : function() {
           return $http.get(
-            '/assets/weapons.json'
+            '/assets/test.json'
           );
         },
         data : null
@@ -38,8 +38,18 @@ angular.module('httpCSGOStash').config([
 
     $stateProvider
     .state('wep', {
-      url: '/wep/{wep} | {skin}',
+      url: '/wep/{wep}',
       templateUrl: '/wep.html',
+      controller: 'WepCtrl',
+      resolve: {
+        return;
+      }
+    })
+
+    $stateProvider
+    .state('singleskin', {
+      url: '/singleskin/{wep} | {skin}',
+      templateUrl: '/singleskin.html',
       controller: 'SkinCtrl',
       resolve: {
         skin : ['$stateParams', 'itemData',

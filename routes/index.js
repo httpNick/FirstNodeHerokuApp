@@ -9,18 +9,18 @@ router.get('/singleprice/:data', function(req, res, next) {
 	var promises = [];
 	var items = JSON.parse(req.params.data);
 	items.skins.forEach(function(skin) {
-		items.skinData[skin] = {};
+		items.skinData[skin.skinName] = {};
 		wears.forEach(function(wear) {
-			items.skinData[skin][wear] = {
+			items.skinData[skin.skinName][wear] = {
 				median_price : "No Data Exists",
 				lowest_price : "No Data Exists"
 			}
 			promises
-			.push(csgo.getSinglePriceAsync(items.name, skin, wear, false)
+			.push(csgo.getSinglePriceAsync(items.name, skin.skinName, wear, false)
 			.then(function(data) {
 				if (data.lowest_price) data.lowest_price = data.lowest_price.split(';')[0];
 				if (data.median_price) data.median_price = data.median_price.split(';')[0];
-				items.skinData[skin][wear] = data;
+				items.skinData[skin.skinName][wear] = data;
 			}));
 		});
 	});

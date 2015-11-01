@@ -17,14 +17,15 @@ angular.module('httpCSGOStash')
             $scope.results.push(weapon);
           } else {
             angular.forEach(weapon.skins, function(skin) {
-              if (skin.toLowerCase().indexOf(inputText.toLowerCase()) > -1) {
+              if (skin.skinName.toLowerCase().indexOf(inputText.toLowerCase()) > -1) {
                 if ($scope.results.indexOf(weapon) < 0) {
                   $scope.results.push(weapon);
                 }
               }
-            })
+            });
           }
         });
+        document.activeElement.blur();
       }
     }
   ]);

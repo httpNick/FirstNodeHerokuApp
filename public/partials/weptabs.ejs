@@ -10,14 +10,14 @@
  </li>
 </ul>
 
-<div class="col-md-5 col-md-offset-3">
+<div class="col-md-6 col-md-offset-3">
   <div id="myTabContent" class="tab-content">
      <div class="tab-pane fade" ng-repeat = "wep in weapons" id="{{wep.name}}">
-     <div ng-repeat="skin in wep.skins">
-       <a href="#/wep/{{wep.name}} | {{skin}}"><img ng-src="images/{{wep.name}}-{{skin}}.png" style="width:50px;height:50px" /></a>
-       <span class="label label-danger"> {{skin}} </span>
-       <span class="label label-success">  <strong>Field-Tested</strong>: Lowest: <strong>{{wep.skinData[skin]['Field-Tested'].lowest_price}}</strong> Median: <strong>{{wep.skinData[skin]['Field-Tested'].median_price}}</strong></span>
-     </div>
+       <div ng-repeat="skin in wep.skins">
+         <a href="#/singleskin/{{wep.name}} | {{skin.skinName}}"><img ng-src="http://csgostash.com/img/skins/s{{skin.imgNumber}}.png" style="width:50px;height:50px" /></a>
+         <span class="label label-danger"> {{skin.skinName}} </span>
+         <span class="label label-success">  <strong>Field-Tested</strong>: Lowest: <strong>{{wep.skinData[skin.skinName]['Field-Tested'].lowest_price}}</strong> Median: <strong>{{wep.skinData[skin.skinName]['Field-Tested'].median_price}}</strong></span>
+       </div>
      </div>
   </div>
 </div>
