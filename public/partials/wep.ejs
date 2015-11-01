@@ -1,0 +1,21 @@
+<div class="page-header">
+    <h1>{{wep.name}}</h1>
+</div>
+
+<div class="row">
+  <div class="col-md-6" ng-repeat="skin in wep.skins">
+    <h3>{{skin.skinName}}</h3>
+    <div ng-if="skin.imgNumber >= 495" class="thumbnail" alt="Image not available">
+      <img
+        ng-src="http://csgostash.com/img/skins/s{{skin.imgNumber}}fn.png"
+        style="width:75px;height:75px"
+      />
+    </div>
+    <div ng-if="skin.imgNumber < 495" class="thumbnail">
+      <img
+        ng-src="http://csgostash.com/img/skins/s{{skin.imgNumber}}.png"
+        style="width:75px;height:75px"
+      />
+    </div>
+  </div>
+</div>

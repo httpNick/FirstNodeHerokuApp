@@ -42,8 +42,13 @@ angular.module('httpCSGOStash').config([
       templateUrl: '/wep.html',
       controller: 'WepCtrl',
       resolve: {
+        wep: ['$stateParams',
+          function($stateParams) {
+            return $stateParams.wep;
+          }
+        ]
       }
-    })
+    });
 
     $stateProvider
     .state('singleskin', {
@@ -82,5 +87,5 @@ angular.module('httpCSGOStash').config([
       controller: 'SearchCtrl'
     });
 
-    $urlRouterProvider.otherwise('home');
+    $urlRouterProvider.otherwise('search');
     }]);
